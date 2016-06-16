@@ -63,9 +63,8 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-travis]: https://img.shields.io/travis/jworksuk/mondo-bank-api-php/master.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/jworksuk/mondo-bank-api-php.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/jworksuk/mondo-bank-api-php
+[link-packagist]: https://packagist.org/packages/jworksuk/mondo-bank-api
 [link-travis]: https://travis-ci.org/jworksuk/mondo-bank-api-php
-[link-code-quality]: https://scrutinizer-ci.com/g/jworksuk/mondo-bank-api-php
-[link-downloads]: https://packagist.org/packages/jworksuk/mondo-bank-api-php
+[link-downloads]: https://packagist.org/packages/jworksuk/mondo-bank-api
 [link-author]: https://github.com/jworksuk
 [link-contributors]: ../../contributors
