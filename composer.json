@@ -1,0 +1,46 @@
+{
+    "name": "jworksuk/mondo-bank-api",
+    "type": "library",
+    "description": "PHP Mondo Bank Client",
+    "keywords": [
+        "jworksuk",
+        "mondo-bank-api",
+        "mondo-bank"
+    ],
+    "homepage": "https://github.com/jworksuk/mondo-bank-api-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jesse James",
+            "email": "me@jworksuk.com",
+            "homepage": "http://www.jworksuk.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~5.5|~7.0",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "~4.0||~5.0",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "JWorksUK\\Mondo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "jworksuk\\Mondo\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
