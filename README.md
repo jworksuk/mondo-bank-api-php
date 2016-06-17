@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-PHP Mondo Bank Client
+A PHP client for interacting with Mondo Bank. Still in development.
 
 ## Install
 
@@ -18,8 +18,14 @@ $ composer require jworksuk/mondo-bank-api
 ## Usage
 
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+$client = new JWorksUK\Mondo\Client('XXXXX');
+
+$whoami = $client->whoAmI();
+$accounts = $client->listAccounts();
+$balance = $client->readBalance($accounts->accounts[0]->id);
+$transactions = $client->listTransactions($accounts->accounts[0]->id);
+
+
 ```
 
 ## Testing

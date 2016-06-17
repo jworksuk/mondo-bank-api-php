@@ -37,7 +37,8 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "psr2": "phpcs --standard=psr2 src/"
     },
     "extra": {
         "branch-alias": {
