@@ -36,7 +36,7 @@ class Balance
      */
     public function getBalance()
     {
-        return Helper::formatMoney($this->balance);
+        return Helper::formatMoney($this->balance, $this->currency);
     }
 
     /**
@@ -46,6 +46,6 @@ class Balance
      */
     public function getSpendToday()
     {
-        return Helper::formatMoney($this->spend_today);
+        return Helper::formatMoney($this->spend_today, $this->currency);
     }
 }

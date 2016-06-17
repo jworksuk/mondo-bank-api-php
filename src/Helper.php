@@ -2,6 +2,8 @@
 
 namespace JWorksUK\Mondo;
 
+use Symfony\Component\Intl\Intl;
+
 class Helper
 {
     const MONDO_DATETIME = 'Y-m-d\TH:i:s.uP';
@@ -16,13 +18,19 @@ class Helper
      *
      * @return string
      */
-    public static function formatMoney($units, $locale = 'en_GB')
+    public static function formatMoney($units, $currency)
     {
+        \Locale::setDefault('en');
+
+        // Get Currency Symbol
+        $symbol = Intl::getCurrencyBundle()->getCurrencySymbol($currency);
+
+        // Decimal places
+        $decimals = Intl::getCurrencyBundle()->getFractionDigits($currency);
+
         $units = $units / 100;
 
-        setlocale(LC_MONETARY, $locale);
-
-        return money_format('%n', $units);
+        return trim($symbol . ' ' . number_format($units,$decimals));
     }
 
     /**

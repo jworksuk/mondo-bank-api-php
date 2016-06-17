@@ -7,19 +7,19 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     public function mondeyProvider()
     {
         return [
-            [250, 'en_GB', '£2.50'],
-            [1023357, 'en_US', '$10,233.57'],
-            [250, 'fr_FR', '2,50 Eu'],
-            [2000000, 'ja_JP', '¥20,000'],
+            [250, 'GBP','£ 2.50'],
+            [1023357, 'USD','$ 10,233.57'],
+            [250, 'EUR', '€ 2.50'],
+            [2000000, 'JPY', '¥ 20,000'],
         ];
     }
 
     /**
      * @dataProvider mondeyProvider
      */
-    public function testFormatMoney($unit, $locale, $expect)
+    public function testFormatMoney($unit, $currency, $expect)
     {
-        $this->assertEquals($expect, Helper::formatMoney($unit, $locale));
+        $this->assertEquals($expect, Helper::formatMoney($unit, $currency));
     }
 
     public function testCreateDateTime()
