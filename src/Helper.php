@@ -30,7 +30,7 @@ class Helper
 
         $units = $units / 100;
 
-        return trim($symbol . ' ' . number_format($units,$decimals));
+        return trim($symbol . ' ' . number_format($units, $decimals));
     }
 
     /**
