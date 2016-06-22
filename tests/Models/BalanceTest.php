@@ -25,4 +25,9 @@ class BalanceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('£ -1.23', $this->account->getSpendToday());
     }
+
+    public function testGetCurrency()
+    {
+        $this->assertEquals('GBP', $this->account->getCurrency());
+    }
 }

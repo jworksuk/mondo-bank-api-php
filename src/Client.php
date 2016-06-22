@@ -12,6 +12,8 @@ class Client
 {
     protected $client;
 
+    protected $access_token;
+
     /**
      * Builds Mondo Client class
      *
@@ -19,14 +21,21 @@ class Client
      */
     public function __construct($access_token)
     {
+        $this->setAccessToken($access_token);
+
         $this->client = new GClient(
             [
                 'base_uri' => 'https://api.getmondo.co.uk',
                 'headers' => [
-                    'Authorization' => 'Bearer '.$access_token
+                    'Authorization' => 'Bearer '.$this->access_token
                 ]
             ]
         );
+    }
+
+    public function setAccessToken($access_token)
+    {
+        $this->access_token = $access_token;
     }
 
     /**
@@ -48,8 +57,7 @@ class Client
 
             $body = $response->getBody();
         } catch (\Exception $e) {
-            print_r($e->getMessage());
-            die;
+            throw new \Exception($e->getMessage(), $e->getCode());
         }
 
         return json_decode($body);

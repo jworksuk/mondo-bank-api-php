@@ -9,7 +9,7 @@ class Accounts
     /**
      * Builds array of Accounts
      *
-     * @param array $body
+     * @param $body
      */
     public function __construct($body)
     {

@@ -30,4 +30,20 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('2015-08-22 12:20:18', $this->account->getCreated());
     }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testUndefinedProperty()
+    {
+        $this->account->foo;
+    }
+
+    /**
+     * @expectedException \BadMethodCallException
+     */
+    public function testBadCallMethod()
+    {
+        $this->account->getFoo();
+    }
 }
