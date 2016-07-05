@@ -6,6 +6,8 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 {
     protected $transaction;
 
+    protected $unsettled_transaction;
+
     public function setUp()
     {
         $object = new \stdClass;
@@ -17,11 +19,18 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $object->id = 'tx_00008zIcpb1TB4yeIFXMzx';
         $object->merchant = '';
         $object->metadata = '';
+        $object->category = 'eating_out';
         $object->notes = 'Salmon sandwich 🍞';
         $object->is_load = false;
         $object->settled = '2015-08-23T12:20:18.123Z';
 
         $this->transaction = new Transaction($object);
+
+        $obj2 = new \stdClass;
+        $obj2->transaction = clone $object;
+        $obj2->transaction->settled = '';
+
+        $this->unsettled_transaction = new Transaction($obj2);
     }
 
     public function testGetId()
@@ -44,6 +53,11 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2015-08-23 12:20:18', $this->transaction->getSettled());
     }
 
+    public function testGetSettledFalse()
+    {
+        $this->assertFalse($this->unsettled_transaction->getSettled());
+    }
+
     public function testGetNotes()
     {
         $this->assertEquals('Salmon sandwich 🍞', $this->transaction->getNotes());
@@ -62,5 +76,10 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
     public function testGetAccountBalance()
     {
         $this->assertEquals('£ 130.13', $this->transaction->getAccountBalance());
+    }
+
+    public function testGetCategory()
+    {
+        $this->assertEquals('Eating Out', $this->transaction->getCategory());
     }
 }

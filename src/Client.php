@@ -2,8 +2,11 @@
 
 namespace JWorksUK\Mondo;
 
+use JWorksUK\Mondo\Exceptions\HttpException;
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\ClientException;
+use Exception;
 
 /**
  * @todo  setClient() method
@@ -56,8 +59,11 @@ class Client
             $response = $this->client->send($request, $options);
 
             $body = $response->getBody();
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), $e->getCode());
+        } catch (ClientException $e) {
+            $body = json_decode($e->getResponse()->getBody());
+            throw new HttpException($body->message, $e->getCode());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
         }
 
         return json_decode($body);
@@ -137,5 +143,52 @@ class Client
         );
 
         return new Models\Transactions($response);
+    }
+
+    public function retrieveTransaction($transaction_id, $expand = [])
+    {
+        $response = $this->request(
+            'GET',
+            '/transactions/'.$transaction_id,
+            [
+                'query' => [
+                    'expand[]' => $expand
+                ]
+            ]
+        );
+
+        return new Models\Transaction($response);
+    }
+
+    public function annotateTransaction($transaction_id, Metadata $metadata)
+    {
+        $response = $this->request(
+            'PATCH',
+            '/transactions/'.$transaction_id,
+            [
+                'form_params' => [
+                    'metadata' => $metadata->toArray()
+                ]
+            ]
+        );
+
+        return new Models\Transaction($response);
+    }
+
+    public function createFeedItem($account_id, FeedItems\FeedItem $item)
+    {
+        $response = $this->request(
+            'POST',
+            '/feed',
+            [
+                'form_params' => [
+                    'account_id' => $account_id,
+                    'type' => 'basic',
+                    'params' => $item->toArray()
+                ]
+            ]
+        );
+
+        return true;
     }
 }

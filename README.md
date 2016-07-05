@@ -37,12 +37,8 @@ $ composer test
 ## TODO
 
  - TESTS!!!
- - abstract model class
-   - toArray, toString
+ - Merchant class
  - More endpoints
-   - Retrieve transaction
-   - Annotate transaction
-   - Create feed item
    - Webhooks
    - Attachemnts
    - Errors!!

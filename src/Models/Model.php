@@ -7,9 +7,9 @@ use BadMethodCallException;
 
 abstract class Model
 {
-    const MONDO_MONEY_TYPES = ['balance', 'spend_today', 'amount', 'account_balance'];
+    private $money = ['balance', 'spend_today', 'amount', 'account_balance'];
 
-    const MONDO_DATE_TYPES = ['created', 'settled'];
+    private $date = ['created', 'settled'];
 
     /**
      * API data
@@ -24,7 +24,12 @@ abstract class Model
      */
     public function __construct($data)
     {
-        $this->data = $data;
+        // Transaction
+        if (isset($data->transaction)) {
+            $this->data = $data->transaction;
+        } else {
+            $this->data = $data;
+        }
     }
 
     /**
@@ -72,9 +77,17 @@ abstract class Model
         }
         $key = implode('_', $ret);
 
-        if (in_array($key, self::MONDO_MONEY_TYPES) && isset($this->currency)) {
+        if ($key == 'category') {
+            return ucwords(str_replace('_', ' ', $this->{$key}));
+        }
+
+        if (in_array($key, $this->money) && isset($this->currency)) {
             return Helper::formatMoney($this->{$key}, $this->currency);
-        } elseif (in_array($key, self::MONDO_DATE_TYPES)) {
+        } elseif (in_array($key, $this->date)) {
+            if (empty($this->{$key})) {
+                return false;
+            }
+
             return Helper::createDateTime(
                 Helper::MONDO_DATETIME,
                 $this->{$key}

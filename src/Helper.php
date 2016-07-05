@@ -3,6 +3,8 @@
 namespace JWorksUK\Mondo;
 
 use Symfony\Component\Intl\Intl;
+use DateTime;
+use Locale;
 
 class Helper
 {
@@ -20,7 +22,7 @@ class Helper
      */
     public static function formatMoney($units, $currency)
     {
-        \Locale::setDefault('en');
+        Locale::setDefault('en');
 
         // Get Currency Symbol
         $symbol = Intl::getCurrencyBundle()->getCurrencySymbol($currency);
@@ -43,6 +45,6 @@ class Helper
      */
     public static function createDateTime($format, $time)
     {
-        return \DateTime::createFromFormat($format, $time);
+        return DateTime::createFromFormat($format, $time);
     }
 }
