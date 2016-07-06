@@ -88,13 +88,13 @@ class Client
      *
      * @see https://getmondo.co.uk/docs/#accounts
      *
-     * @return Models\Accounts
+     * @return Models\Collection
      */
     public function listAccounts()
     {
         $response = $this->request('GET', '/accounts');
 
-        return new Models\Accounts($response);
+        return new Models\Collection($response, 'accounts', Models\Account::class);
     }
 
     /**
@@ -128,7 +128,7 @@ class Client
      *
      * @see https://getmondo.co.uk/docs/#list-transactions
      *
-     * @return Models\Transactions
+     * @return Models\Collection
      */
     public function listTransactions($account_id)
     {
@@ -142,10 +142,20 @@ class Client
             ]
         );
 
-        return new Models\Transactions($response);
+        return new Models\Collection($response, 'transactions', Models\Transaction::class);
     }
 
-    public function retrieveTransaction($transaction_id, $expand = [])
+    /**
+     * Returns an individual transaction, fetched by its id.
+     *
+     * @param  string $transaction_id
+     * @param  string  $expand
+     *
+     * @see https://getmondo.co.uk/docs/#retrieve-transaction
+     *
+     * @return Models\Transaction
+     */
+    public function retrieveTransaction($transaction_id, $expand = '')
     {
         $response = $this->request(
             'GET',
@@ -160,6 +170,16 @@ class Client
         return new Models\Transaction($response);
     }
 
+    /**
+     * Annotate transaction
+     *
+     * @param  string   $transaction_id
+     * @param  Metadata $metadata
+     *
+     * @see https://getmondo.co.uk/docs/#annotate-transaction
+     *
+     * @return Models\Transaction
+     */
     public function annotateTransaction($transaction_id, Metadata $metadata)
     {
         $response = $this->request(
@@ -175,6 +195,16 @@ class Client
         return new Models\Transaction($response);
     }
 
+    /**
+     * Creates a new feed item on the user’s feed
+     *
+     * @param  string             $account_id
+     * @param  FeedItems\FeedItem $item
+     *
+     * @see https://getmondo.co.uk/docs/#create-feed-item
+     *
+     * @return boolean
+     */
     public function createFeedItem($account_id, FeedItems\FeedItem $item)
     {
         $response = $this->request(

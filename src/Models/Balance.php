@@ -3,7 +3,11 @@
 namespace JWorksUK\Mondo\Models;
 
 /**
- * @method string getSpendToday()
+ * @property sting $currency
+ * @property string $spend_today
+ * @property string $balance
+ *
+ * @method string getBalance()
  * @method string getCurrency()
  * @method string getSpendToday()
  */

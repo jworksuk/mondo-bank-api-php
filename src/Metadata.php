@@ -10,7 +10,6 @@ class Metadata
      * Get Metadata
      *
      * @param string|int $key
-     * @param null       $default
      *
      * @return mixed
      */
@@ -38,6 +37,11 @@ class Metadata
         return $this->get($key);
     }
 
+    /**
+     * Return array of class
+     *
+     * @return array
+     */
     public function toArray()
     {
         return $this->data;

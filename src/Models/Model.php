@@ -7,10 +7,6 @@ use BadMethodCallException;
 
 abstract class Model
 {
-    private $money = ['balance', 'spend_today', 'amount', 'account_balance'];
-
-    private $date = ['created', 'settled'];
-
     /**
      * API data
      * @var array
@@ -54,14 +50,23 @@ abstract class Model
     }
 
     /**
-     * [__call description]
-     * @param  [type] $name      [description]
-     * @param  [type] $arguments [description]
+     * Magic method to call function
+     *
+     * @param  string $name
+     * @param  array $arguments
+     *
      * @see  http://stackoverflow.com/questions/1993721/how-to-convert-camelcase-to-camel-case
-     * @return [type]            [description]
+     *
+     * @throws BadMethodCallException
+     *
+     * @return mixed
      */
     public function __call($name, $arguments)
     {
+        $money = ['balance', 'spend_today', 'amount', 'account_balance'];
+
+        $date = ['created', 'settled'];
+
         // Get camel case property name
         $key = substr($name, 3);
 
@@ -81,9 +86,9 @@ abstract class Model
             return ucwords(str_replace('_', ' ', $this->{$key}));
         }
 
-        if (in_array($key, $this->money) && isset($this->currency)) {
+        if (in_array($key, $money) && isset($this->currency)) {
             return Helper::formatMoney($this->{$key}, $this->currency);
-        } elseif (in_array($key, $this->date)) {
+        } elseif (in_array($key, $date)) {
             if (empty($this->{$key})) {
                 return false;
             }
