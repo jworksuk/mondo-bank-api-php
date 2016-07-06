@@ -3,8 +3,9 @@
 namespace JWorksUK\Mondo\Models;
 
 use Iterator;
+use Countable;
 
-class Collection implements Iterator
+class Collection implements Iterator, Countable
 {
     private $data = [];
 
@@ -47,5 +48,10 @@ class Collection implements Iterator
         $key = key($this->data);
         $data = ($key !== null && $key !== false);
         return $data;
+    }
+
+    public function count()
+    {
+        return count($this->data);
     }
 }

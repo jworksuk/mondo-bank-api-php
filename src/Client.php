@@ -3,9 +3,8 @@
 namespace JWorksUK\Mondo;
 
 use JWorksUK\Mondo\Exceptions\HttpException;
-use GuzzleHttp\Client as GClient;
+use Http\Client\HttpClient;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\ClientException;
 use Exception;
 
 /**
@@ -15,30 +14,19 @@ class Client
 {
     protected $client;
 
-    protected $access_token;
-
     /**
      * Builds Mondo Client class
      *
      * @param string $access_token user's access token
      */
-    public function __construct($access_token)
+    public function __construct(HttpClient $client)
     {
-        $this->setAccessToken($access_token);
-
-        $this->client = new GClient(
-            [
-                'base_uri' => 'https://api.getmondo.co.uk',
-                'headers' => [
-                    'Authorization' => 'Bearer '.$this->access_token
-                ]
-            ]
-        );
+        $this->client = $client;
     }
 
-    public function setAccessToken($access_token)
+    public function setHttpClient(HttpClient $client)
     {
-        $this->access_token = $access_token;
+        $this->client = $client;
     }
 
     /**
@@ -56,14 +44,12 @@ class Client
     {
         try {
             $request = new Request($method, $endpoint);
-            $response = $this->client->send($request, $options);
+            $response = $this->client->sendRequest($request, $options);
 
             $body = $response->getBody();
-        } catch (ClientException $e) {
+        } catch (Exception $e) {
             $body = json_decode($e->getResponse()->getBody());
             throw new HttpException($body->message, $e->getCode());
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
         }
 
         return json_decode($body);
@@ -110,12 +96,7 @@ class Client
     {
         $response = $this->request(
             'GET',
-            '/balance',
-            [
-                'query' => [
-                    'account_id' => $account_id
-                ]
-            ]
+            '/balance?account_id='.$account_id
         );
 
         return new Models\Balance($response);
@@ -134,12 +115,7 @@ class Client
     {
         $response = $this->request(
             'GET',
-            '/transactions',
-            [
-                'query' => [
-                    'account_id' => $account_id
-                ]
-            ]
+            '/transactions?account_id='.$account_id
         );
 
         return new Models\Collection($response, 'transactions', Models\Transaction::class);
